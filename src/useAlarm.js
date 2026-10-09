@@ -1,15 +1,20 @@
 import { useRef, useCallback, useMemo } from 'react'
 
-// Sirena generada con WebAudio (sin archivos de audio)
+// Sirena y pitidos generados con WebAudio (sin archivos de audio)
 export function useAlarm() {
   const ctxRef = useRef(null)
   const nodesRef = useRef(null)
 
-  const start = useCallback(() => {
-    if (nodesRef.current) return
+  const getCtx = () => {
     const ctx = ctxRef.current || new (window.AudioContext || window.webkitAudioContext)()
     ctxRef.current = ctx
     ctx.resume()
+    return ctx
+  }
+
+  const start = useCallback(() => {
+    if (nodesRef.current) return
+    const ctx = getCtx()
     const osc = ctx.createOscillator()
     const lfo = ctx.createOscillator()
     const lfoGain = ctx.createGain()
@@ -34,5 +39,20 @@ export function useAlarm() {
     if (navigator.vibrate) navigator.vibrate(0)
   }, [])
 
-  return useMemo(() => ({ start, stop }), [start, stop])
+  // Pitido corto para el modo buscar (más agudo = más cerca)
+  const beep = useCallback((freq = 800) => {
+    const ctx = getCtx()
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.type = 'sine'
+    osc.frequency.value = freq
+    gain.gain.setValueAtTime(0.2, ctx.currentTime)
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12)
+    osc.connect(gain).connect(ctx.destination)
+    osc.start()
+    osc.stop(ctx.currentTime + 0.13)
+    if (navigator.vibrate) navigator.vibrate(30)
+  }, [])
+
+  return useMemo(() => ({ start, stop, beep }), [start, stop, beep])
 }

@@ -47,3 +47,23 @@ h1 { font-size:1.2rem; margin:0; }
 .btn .label { position:relative; z-index:1; }
 .ripple { position:absolute; width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,.55); transform:translate(-50%,-50%) scale(0); animation: rip .6s ease-out forwards; }
 @keyframes rip { to { transform:translate(-50%,-50%) scale(30); opacity:0; } }
+
+.trend { display:flex; align-items:center; justify-content:center; gap:10px; padding:12px; border-radius:14px; font-weight:800; font-size:1.05rem; background:var(--card); animation: pop .35s ease-out; }
+.trend .ticon { font-size:1.4rem; display:inline-block; }
+.trend.approach { color:var(--ok); background:#0e3a30; }
+.trend.approach .ticon { animation: down 0.9s ease-in-out infinite; }
+.trend.away { color:var(--bad); background:#3a1119; }
+.trend.away .ticon { animation: up 0.9s ease-in-out infinite; }
+.trend.steady { color:#8da0c8; }
+@keyframes pop { 0%{transform:scale(.92);opacity:.5} 100%{transform:scale(1);opacity:1} }
+@keyframes down { 50% { transform:translateY(5px); } }
+@keyframes up { 50% { transform:translateY(-5px); } }
+
+.heat { position:relative; height:30px; border-radius:99px; background:var(--card); overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:.85rem; font-weight:700; }
+.heat-fill { position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,#3b82f6,#22d3a0,#facc15,#ff4d5e); transition:width .3s ease-out; opacity:.75; }
+.heat span { position:relative; z-index:1; text-shadow:0 1px 3px #000; }
+.tag.here { animation: bounce .5s infinite; }
+@keyframes bounce { 50% { transform:translate(-50%,-50%) scale(1.35); } }
+.bars { display:flex; align-items:flex-end; justify-content:center; gap:3px; height:24px; }
+.bars i { width:5px; border-radius:2px; background:#2a3858; transition:background .3s; }
+.bars i.on { background:var(--ok); }
