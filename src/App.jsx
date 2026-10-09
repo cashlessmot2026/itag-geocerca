@@ -192,7 +192,7 @@ export default function App() {
 
       <div className="heat">
         <div className="heat-fill" style={{ width: `${heat}%` }} />
-        <span>{heat >= 70 ? '🔥 Muy cerca' : heat >= 40 ? '🌤️ Tibio' : '❄️ Frío'}</span>
+        <span>{heat >= 85 ? '🔥 Muy cerca' : heat >= 60 ? '🌤️ Tibio' : '❄️ Lejos'}</span>
       </div>
 
       <div className="readout">
