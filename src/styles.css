@@ -1,0 +1,49 @@
+:root { --bg:#0b1220; --card:#121b2e; --ok:#22d3a0; --bad:#ff4d5e; --pri:#5b8cff; --txt:#e8eefc; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin:0; background:var(--bg); color:var(--txt); font-family: system-ui, sans-serif; }
+.app { max-width:460px; margin:0 auto; min-height:100vh; padding:16px; display:flex; flex-direction:column; gap:14px; }
+.app.danger { animation: flash .8s infinite; }
+@keyframes flash { 50% { background:#2a0f16; } }
+header { display:flex; justify-content:space-between; align-items:center; }
+h1 { font-size:1.2rem; margin:0; }
+.status { padding:6px 12px; border-radius:99px; font-size:.8rem; font-weight:700; transition:all .3s; }
+.status.ok { background:#0e3a30; color:var(--ok); }
+.status.off { background:#262f44; color:#8da0c8; }
+.status.bad { background:var(--bad); color:#fff; animation: shake .4s infinite; }
+@keyframes shake { 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)} }
+
+.radar { position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle,#13213d,#0a1020); border:2px solid #22345c; touch-action:none; overflow:hidden; cursor:crosshair; }
+.ring { position:absolute; inset:0; margin:auto; border:1px dashed #28406e; border-radius:50%; pointer-events:none; }
+.r1{width:33%;height:33%} .r2{width:66%;height:66%} .r3{width:100%;height:100%}
+.sweep { position:absolute; inset:0; background:conic-gradient(from 0deg, rgba(91,140,255,.35), transparent 25%); animation: spin 3s linear infinite; border-radius:50%; pointer-events:none; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.fence { position:absolute; inset:0; margin:auto; border-radius:50%; border:3px solid var(--ok); background:rgba(34,211,160,.08); transition:width .3s,height .3s,border-color .3s,background .3s; pointer-events:none; }
+.fence.breach { border-color:var(--bad); background:rgba(255,77,94,.12); }
+.me { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:1.6rem; pointer-events:none; }
+.tag { position:absolute; transform:translate(-50%,-50%); font-size:1.7rem; transition:left .08s linear, top .08s linear; pointer-events:none; }
+.tag .pulse { position:absolute; inset:-8px; border-radius:50%; background:var(--pri); opacity:.35; animation: ping 1.6s infinite; z-index:-1; }
+.tag.alerting .pulse { background:var(--bad); animation-duration:.6s; }
+@keyframes ping { 0%{transform:scale(.6);opacity:.6} 100%{transform:scale(1.8);opacity:0} }
+
+.readout { display:flex; gap:10px; }
+.readout div { flex:1; background:var(--card); border-radius:14px; padding:10px; text-align:center; }
+.readout b { font-size:1.4rem; display:block; }
+.readout small { color:#8da0c8; }
+.slider { display:flex; flex-direction:column; gap:6px; font-size:.85rem; color:#8da0c8; }
+.slider input { width:100%; accent-color:var(--ok); }
+.row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.hint { font-size:.8rem; color:#8da0c8; margin:0; width:100%; }
+.hint.err { color:var(--bad); }
+
+.btn { position:relative; overflow:hidden; flex:1; min-width:120px; border:0; border-radius:14px; padding:14px 16px; font-size:.95rem; font-weight:700; color:#fff; cursor:pointer; transition:transform .15s, box-shadow .2s; }
+.btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 22px rgba(91,140,255,.35); }
+.btn:active:not(:disabled) { transform:scale(.94); }
+.btn:disabled { opacity:.5; cursor:not-allowed; }
+.btn.primary { background:linear-gradient(135deg,#5b8cff,#7a5bff); }
+.btn.primary.active { animation: glow 2s infinite; }
+@keyframes glow { 50% { box-shadow:0 0 22px rgba(91,140,255,.8); } }
+.btn.ghost { background:#1c2a47; color:#b8c7ea; }
+.btn.danger { background:linear-gradient(135deg,#ff4d5e,#ff8a4d); animation: shake .5s infinite; }
+.btn .label { position:relative; z-index:1; }
+.ripple { position:absolute; width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,.55); transform:translate(-50%,-50%) scale(0); animation: rip .6s ease-out forwards; }
+@keyframes rip { to { transform:translate(-50%,-50%) scale(30); opacity:0; } }
